@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Список завдань</title>
+</head>
+<body>
+<h1>Мої завдання</h1>
+<ul>
+    <li th:each="task : ${tasks}" th:text="${task}">Завдання</li>
+</ul>
+
+<h2>Додати нове завдання через URL</h2>
+<p>Спробуй відкрити:</p>
+<a href="/tasks?newTask=Прочитати книгу">Додати "Прочитати книгу"</a>
+</body>
+</html>
