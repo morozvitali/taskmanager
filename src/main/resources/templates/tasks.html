@@ -9,8 +9,12 @@
     <li th:each="task : ${tasks}" th:text="${task}">Завдання</li>
 </ul>
 
-<h2>Додати нове завдання через URL</h2>
-<p>Спробуй відкрити:</p>
-<a href="/tasks?newTask=Прочитати книгу">Додати "Прочитати книгу"</a>
+<h2>Додати нове завдання</h2>
+<form action="/tasks" method="post">
+    <label>Назва завдання:
+        <input type="text" name="taskName" required>
+    </label>
+    <button type="submit">Додати</button>
+</form>
 </body>
 </html>
