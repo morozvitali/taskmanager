@@ -37,4 +37,14 @@ public class TaskController {
 
         return "redirect:/tasks"; // перенаправлення назад до списку
     }
+
+    @PostMapping("/delete-task")
+    public String deleteTask(@RequestParam("taskIndex") int taskIndex) {
+        if (taskIndex >= 0 && taskIndex < tasks.size()) {
+            tasks.remove(taskIndex);
+        }
+        return "redirect:/tasks"; // Повертаємо користувача назад на сторінку
+    }
+
+
 }

@@ -5,9 +5,19 @@
 </head>
 <body>
 <h1>Мої завдання</h1>
+
+
 <ul>
-    <li th:each="task : ${tasks}" th:text="${task}">Завдання</li>
+    <li th:each="task, iter : ${tasks}">
+        <span th:text="${task}">Завдання</span>
+        <form action="/delete-task" method="post" style="display:inline;">
+            <input type="hidden" name="taskIndex" th:value="${iter.index}">
+            <button type="submit">❌</button>
+        </form>
+    </li>
 </ul>
+
+
 
 <h2>Додати нове завдання</h2>
 <form action="/tasks" method="post">
