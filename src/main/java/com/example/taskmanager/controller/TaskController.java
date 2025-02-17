@@ -1,7 +1,7 @@
 package com.example.taskmanager.controller;
 
 
-import org.springframework.scheduling.config.Task;
+import com.example.taskmanager.service.TaskService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,38 +13,28 @@ import java.util.List;
 
 @Controller
 public class TaskController {
-    private List <String> tasks = new ArrayList<>();
+    private final TaskService taskService;
 
-
-    public TaskController() {
-        tasks.add("Вивчити Spring MVC");
-        tasks.add("Реалізувати контролер");
-        tasks.add("Створити представлення");
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
     }
 
     @GetMapping("/tasks")
     public String getTasks(Model model) {
-        model.addAttribute("tasks", tasks);
+        model.addAttribute("tasks", taskService.getTasks());
         return "tasks";
     }
 
-
     @PostMapping("/tasks")
     public String addTasks(@RequestParam("taskName") String taskName) {
-        if (taskName != null && !taskName.trim().isEmpty()) {
-            tasks.add(taskName);
-        }
-
-        return "redirect:/tasks"; // перенаправлення назад до списку
+        taskService.addTasks(taskName);
+        return "redirect:/tasks";
     }
 
-    @PostMapping("/delete-task")
-    public String deleteTask(@RequestParam("taskIndex") int taskIndex) {
-        if (taskIndex >= 0 && taskIndex < tasks.size()) {
-            tasks.remove(taskIndex);
-        }
-        return "redirect:/tasks"; // Повертаємо користувача назад на сторінку
+@PostMapping("/delete-task")
+public String deleteTask(@RequestParam("taskIndex") int taskIndex) {
+taskService.deleteTask(taskIndex);
+return "redirect:/tasks";
     }
-
 
 }
