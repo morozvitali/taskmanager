@@ -19,7 +19,7 @@ class TaskServiceTest {
 
     @BeforeEach
     void setUp() {
-        // Створюємо мок об'єкт репозиторію
+        // Створюємо мок-об'єкт репозиторію
         taskRepository = Mockito.mock(TaskRepository.class);
         taskService = new TaskService(taskRepository);
     }
@@ -54,16 +54,33 @@ class TaskServiceTest {
 
     @Test
     void testDeleteTask() {
+        // Створюємо завдання без встановлення ID
         Task task = new Task("Видалити це завдання");
-        task.setId(1L);
 
-        // Симулюємо поведінку `findById()`
-        when(taskRepository.findById(1L)).thenReturn(Optional.of(task));
+        // Імітуємо, що завдання існує в базі (Mockito сам підставить ID)
+        when(taskRepository.existsById(anyLong())).thenReturn(true);
 
-        // Видаляємо завдання
+        // Викликаємо метод видалення
         taskService.deleteTask(1L);
 
-        // Перевіряємо, що `deleteById()` викликаний один раз
+        // Перевіряємо, що `deleteById(1L)` викликався
         verify(taskRepository, times(1)).deleteById(1L);
     }
+
+
+
+    @Test
+    void testDeleteNonExistentTask() {
+        // Симулюємо, що репозиторій не знаходить завдання
+        when(taskRepository.findById(99L)).thenReturn(Optional.empty());
+
+        // Виконуємо видалення (не повинно викликати помилку)
+        taskService.deleteTask(99L);
+
+        // Перевіряємо, що `deleteById()` не викликався
+        verify(taskRepository, never()).deleteById(anyLong());
+    }
+
+
+
 }
