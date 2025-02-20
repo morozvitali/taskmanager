@@ -8,10 +8,10 @@
 
 
 <ul>
-    <li th:each="task, iter : ${tasks}">
-        <span th:text="${task}">Завдання</span>
+    <li th:each="task : ${tasks}">
+        <span th:text="${task.name}">Завдання</span>
         <form action="/delete-task" method="post" style="display:inline;">
-            <input type="hidden" name="taskIndex" th:value="${iter.index}">
+            <input type="hidden" name="taskId" th:value="${task.id}">
             <button type="submit">❌</button>
         </form>
     </li>

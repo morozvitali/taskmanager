@@ -1,36 +1,29 @@
 package com.example.taskmanager.service;
 
-
+import com.example.taskmanager.model.Task;
+import com.example.taskmanager.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class TaskService {
-    private final List<String> tasks = new ArrayList<>();
+    private final TaskRepository taskRepository;
 
-    public TaskService() {
-        tasks.add("Вивчити Spring MVC");
-        tasks.add("Реалізувати контролер");
-        tasks.add("Створити представлення");
+    public TaskService(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
     }
 
-
-    public List<String> getTasks() {
-        return tasks;
+    public List<Task> getTasks() {
+        return taskRepository.findAll();
     }
 
-
-    public void addTasks(String taskName) {
-        if (taskName != null && !(taskName.trim().isEmpty())) {
-            tasks.add(taskName);
-        }
+    public void addTask(String name) {
+        Task task = new Task(name);
+        taskRepository.save(task);
     }
 
-    public void deleteTask(int taskIndex) {
-        if (taskIndex >= 0 && taskIndex < tasks.size()) {
-            tasks.remove(taskIndex);
-        }
+    public void deleteTask(Long id) {
+        taskRepository.deleteById(id);
     }
 }

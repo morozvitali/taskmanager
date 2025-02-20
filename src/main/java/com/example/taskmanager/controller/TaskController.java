@@ -1,15 +1,10 @@
 package com.example.taskmanager.controller;
 
-
+import com.example.taskmanager.model.Task;
 import com.example.taskmanager.service.TaskService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class TaskController {
@@ -26,15 +21,14 @@ public class TaskController {
     }
 
     @PostMapping("/tasks")
-    public String addTasks(@RequestParam("taskName") String taskName) {
-        taskService.addTasks(taskName);
+    public String addTask(@RequestParam("taskName") String taskName) {
+        taskService.addTask(taskName);
         return "redirect:/tasks";
     }
 
-@PostMapping("/delete-task")
-public String deleteTask(@RequestParam("taskIndex") int taskIndex) {
-taskService.deleteTask(taskIndex);
-return "redirect:/tasks";
+    @PostMapping("/delete-task")
+    public String deleteTask(@RequestParam("taskId") Long taskId) {
+        taskService.deleteTask(taskId);
+        return "redirect:/tasks";
     }
-
 }
